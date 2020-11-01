@@ -19,7 +19,7 @@ class Power {
             y: powerVelY
         }
         this.powerGravity = powerGravity
-        this.powerImageName = 'bullet.png'
+        this.powerImageName = 'power.jpg'
 
         this.powerImageInstance = undefined
 
