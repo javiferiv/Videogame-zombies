@@ -43,9 +43,9 @@ const Game = {
     start() {
 
         this.reset()
-        
+
         this.interval = setInterval(() => {
-           
+
             this.clearScreen()
             this.drawAll()
             this.generateNewPower()
@@ -84,7 +84,7 @@ const Game = {
 
         }
     },
-    
+
     clearAll() {
         if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) { this.powers = this.powers.filter(elm => elm.powerPos.x > 0) }
     },
@@ -95,27 +95,27 @@ const Game = {
     //         this.enemies[Math.floor(Math.random() * this.enemies.length)]
     //     }
     // },
-    
-    
+
+
     // function selectRandom(this.enemies) {
-// return this.enemies[Math.floor(Math.random() * this.enemies.length)]
-// },
+    // return this.enemies[Math.floor(Math.random() * this.enemies.length)]
+    // },
 
     // generateEnemies() {
-        
+
     //     if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) {
-        //         this.enemies.push(new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, (Math.random() * 200), 100, 160, 4,));
+    //         this.enemies.push(new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, (Math.random() * 200), 100, 160, 4,));
     //     }
     // }, 
-    
-    
+
+
     drawAll() {
         this.background.draw()
         this.player.draw()
         this.enemies.forEach(elm => elm.draw(this.framesCounter))
         this.powers.forEach(elm => elm.draw())
 
-        
+
     },
 
     clearScreen() {
@@ -124,12 +124,12 @@ const Game = {
 
 
 
-  
+
 
     isCollision() {
         return this.powers.some(pow => {
             return (
-                this.playerPos.x+ this.platerSize.w >= pow.posX &&
+                this.playerPos.x + this.platerSize.w >= pow.posX &&
                 this.player.posY + this.player.height >= pow.posY &&
                 this.player.posX <= pow.posX + pow.width
             );
