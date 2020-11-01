@@ -19,6 +19,7 @@ class Enemy {
         this.enemiesImageInstance.src = `img/zombie-two-frames.png`
         this.enemiesImageInstance.frames = 5;
         this.enemiesImageInstance.framesIndex = 4;
+        this.enemiesLife = 100
 
     }
 

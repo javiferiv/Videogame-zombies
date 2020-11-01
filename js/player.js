@@ -23,7 +23,7 @@ class Player {
         // this.draw()
         this.keys = keys
         this.bullets = [];
-        this.life=10
+        this.weapon=10
         this.setEventListeners()
 
     }
@@ -54,9 +54,9 @@ class Player {
                     this.walkDown()
                     break;
                 case this.keys.space:
-                    this.shoot();
-                    if (this.life > 0) {
-                        this.life --
+                    if (this.weapon > 0) {
+                        this.shoot();
+                        this.weapon--
                     }
                     break;
             }

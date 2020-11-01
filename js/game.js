@@ -17,6 +17,7 @@ const Game = {
     player: undefined,
     bullet: undefined,
     enemies: [],
+    powers: [],
     keys: {
         space: 32,
         top: 38,
@@ -32,7 +33,7 @@ const Game = {
 
     setDimensions() {
         this.canvasSize.w = window.innerWidth - 200
-        this.canvasSize.h = window.innerHeight - 280
+        this.canvasSize.h = window.innerHeight - 150
         this.canvasTag.setAttribute('width', this.canvasSize.w)
         this.canvasTag.setAttribute('height', this.canvasSize.h)
     },
@@ -42,13 +43,13 @@ const Game = {
     start() {
 
         this.reset()
-
-        this.generateEnemies();
+        
         this.interval = setInterval(() => {
-
+           
             this.clearScreen()
             this.drawAll()
-            // this.clearEnemies();
+            this.generateNewPower()
+            this.generateEnemies()
 
             this.framesCounter > 5000 ? this.framesCounter = 0 : this.framesCounter++
 
@@ -65,25 +66,56 @@ const Game = {
     },
 
     generateEnemies() {
-        const enemy1 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, 70, 100, 160, 1)
-        const enemy2 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, 200, 100, 160, 1)
-        const enemy3 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, 350, 100, 160, 1)
-        const enemy4 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, 270, 100, 160, 1)
-        const enemy5 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 150, 100, 160, 1)
-
-        this.enemies.push(enemy1, enemy2, enemy3, enemy4, enemy5)
-
+        if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) {
+            const enemy1 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 630, 100, 160, 1)
+            const enemy2 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 510, 100, 160, 1)
+            const enemy3 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 390, 100, 160, 1)
+            const enemy4 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 270, 100, 160, 1)
+            const enemy5 = new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, this.canvasSize.h - 100, 100, 160, 1)
+            this.enemies.push(enemy1, enemy2, enemy3, enemy4, enemy5)
+            // this.enemies[Math.floor(Math.random() * this.enemies.length)]
+        }
     },
-    // generateEnemies() {
 
-    //         this.enemies.push(new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, 200, 100, 160, 4,));
+    generateNewPower() {
+        if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 20)) {
+            this.powers.push(new Power(this.ctx, this.canvasSize.w - 50, (Math.random() * this.canvasSize.h), 50, 50, this.canvasSize, .1, 2, 3));
+            console.log(this.powers)
+
+        }
+    },
+    
+    clearAll() {
+        if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) { this.powers = this.powers.filter(elm => elm.powerPos.x > 0) }
+    },
+
+
+    // generateRandom() {
+    //     if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) {
+    //         this.enemies[Math.floor(Math.random() * this.enemies.length)]
+    //     }
     // },
+    
+    
+    // function selectRandom(this.enemies) {
+// return this.enemies[Math.floor(Math.random() * this.enemies.length)]
+// },
 
+    // generateEnemies() {
+        
+    //     if ((this.framesCounter % this.FPS === 0) && (Math.random() * 100 < 30)) {
+        //         this.enemies.push(new Enemy(this.ctx, this.canvasSize, this.canvasSize.w, (Math.random() * 200), 100, 160, 4,));
+    //     }
+    // }, 
+    
+    
     drawAll() {
         this.background.draw()
         this.player.draw()
         this.enemies.forEach(elm => elm.draw(this.framesCounter))
+        this.powers.forEach(elm => elm.draw())
 
+        
     },
 
     clearScreen() {
@@ -92,26 +124,25 @@ const Game = {
 
 
 
-    isCollision() {
-        return this.enemies.some(enem => {
+  
 
-            return (this.playerPosX < this.enemiesPosX + this.enemiesWidth &&
-                this.playerPosX + this.bulletSize.w > this.enemiesPosX &&
-                this.playerPosY < this.enemiesPosY + this.enemiesHeight &&
-                this.bulletSize.h + this.playerPosY > this.enemiesPosY);
+    isCollision() {
+        return this.powers.some(pow => {
+            return (
+                this.playerPos.x+ this.platerSize.w >= pow.posX &&
+                this.player.posY + this.player.height >= pow.posY &&
+                this.player.posX <= pow.posX + pow.width
+            );
         });
     },
 
-
     gameOver() {
-        clearInterval(this.interval)
-        alert("hola");
+        clearInterval(this.interval);
+        alert("STOP")
     }
 
 
 }
-
-
 
 
 
@@ -123,16 +154,11 @@ const Game = {
     //             this.bullet.posY + this.bulletSize.h >= this.enemiesPos.y &&
     //             this.bullet.posX <= this.enemiesPos.x + this.enemiesSize.w
     //         );
+        // this.enemies.enemiesLife -= 20
     //     });
 
     // },
 
-
-
-
-    // // clearEnemies() {
-    // //     this.enemies = this.enemies.filter(enms => enms.enemiesPos.x < 0)
-    // // },
 
     // generateObstacles() {
     //     if (this.framesCounter % 90 === 0) {
