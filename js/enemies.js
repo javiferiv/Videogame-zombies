@@ -18,7 +18,7 @@ class Enemy {
         this.enemiesImageInstance = new Image()
         this.enemiesImageInstance.src = `img/zombie-two-frames.png`
         this.enemiesImageInstance.frames = 5;
-        this.enemiesImageInstance.framesIndex = 4;
+        this.enemiesImageInstance.framesIndex = 0;
         this.enemiesLife = 100
 
     }
@@ -44,7 +44,7 @@ class Enemy {
 
         
         animate(framesCounter) {
-            if (framesCounter % 30 == 0) {
+            if (framesCounter % 8 == 0) {
                 this.enemiesImageInstance.framesIndex++;
             }
             if (this.enemiesImageInstance.framesIndex > this.enemiesImageInstance.frames - 1) {

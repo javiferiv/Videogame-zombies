@@ -23,7 +23,7 @@ class Player {
         // this.draw()
         this.keys = keys
         this.bullets = [];
-        this.weapon=10
+        this.weapon = 10
         this.setEventListeners()
 
     }
@@ -65,7 +65,7 @@ class Player {
 
 
     walkUp() {
-        if (this.playerPos.y > this.canvasSize.h - 520) {
+        if (this.playerPos.y > this.canvasSize.h - 700) {
             this.playerPos.y -= 120
             //this.velY -= 8;
         }
